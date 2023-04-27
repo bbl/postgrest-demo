@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  postgres:
+    image: "postgres:13.4-alpine"
+    ports:
+      - "5432:5432"
+    shm_size: 1g
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata-sample:/var/lib/postgresql/data
+
+  postgrest:
+    image: postgrest/postgrest:v11.0.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./postgrest.conf:/etc/postgrest.conf
+    command:
+      - postgrest
+      - /etc/postgrest.conf
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui:v4.18.2
+    environment:
+      SWAGGER_JSON_URL: http://172.17.0.1:3000
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata-sample:
+

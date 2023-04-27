@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PostgREST demo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet"/>
+    <style>
+        .table-fixed {
+            table-layout: fixed;
+        }
+    </style>
+</head>
+<body>
+
+<div class="flex flex-col w-full">
+
+    <div x-data="gamesData" class="w-1/2 mt-5 mx-auto">
+        <p class="text-3xl text-gray-900">Sample Table</p>
+        <table class="mt-2 text-sm text-left text-gray-500
+               table-fixed  shadow-md sm:rounded-lg" style="height: 50vh;">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100 h-14">
+            <tr>
+
+                <template x-for="col in ['title', 'release_date', 'team', 'rating', 'times_listed',
+                'number_reviews', 'genres']">
+                    <th scope="col" class="px-6 py-3 w-44">
+                        <div @click="sort(col)" class="flex items-center cursor-pointer">
+                            <p x-text="col"></p>
+
+                            <svg x-show="sortCol === col && sortAsc === true"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"/>
+                            </svg>
+
+                            <svg x-show="sortCol === col && sortAsc === false"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"/>
+                            </svg>
+
+                        </div>
+                    </th>
+                </template>
+            </tr>
+            </thead>
+            <tbody>
+            <template x-if="!records">
+                <tr>
+                    <td>
+                        <i>Loading...</i>
+                    </td>
+                </tr>
+            </template>
+
+            <template x-for="record in records" :key="record.game_id">
+                <tr class="bg-white border-b">
+                    <td class="px-6 py-4 font-medium text-gray-900 w-24"
+                        x-text="record.title">
+                    </td>
+                    <td class="px-6 py-4" x-text="record.release_date"></td>
+                    <td class="px-6 py-4" x-text="record.team"></td>
+                    <td class="px-6 py-4" x-text="record.rating"></td>
+                    <td class="px-6 py-4" x-text="record.times_listed"></td>
+                    <td class="px-6 py-4" x-text="record.number_reviews"></td>
+                    <td class="px-6 py-4" x-text="record.genres"></td>
+                </tr>
+            </template>
+
+            </tbody>
+        </table>
+        <div class="mt-3 px-3 py-3">
+            <div>
+                <span class="font-bold" x-text="curPage + 1"></span>
+                <span>...</span>
+                <span x-text="count"></span>
+
+            </div>
+        </div>
+        <div class="mt-3 px-3 py-3">
+            <button :class="curPage === 0 ? 'opacity-50 cursor-not-allowed': 'hover:bg-gray-100 hover:text-blue-700'"
+                    :disabled="curPage === 0"
+                    class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-200"
+                    @click="previousPage">Previous
+            </button>
+            <button class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
+                    @click="nextPage">Next
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script type="module" src="/main.js"></script>
+
+
+</body>
+</html>
