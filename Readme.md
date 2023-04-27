@@ -1,6 +1,6 @@
 # PostgREST Demo
 
-This is an example featuring PostgREST, Flyway and AlpineJS to build a sample app with 
+This is an example featuring PostgREST, Flyway and AlpineJS to build a sample app to display a [Popular Video Games 1980 - 2023 [Kaggle]](https://www.kaggle.com/datasets/arnabchaki/popular-video-games-1980-2023) dataset as a table with sorting and pagination.
 
 Backend:
 
