@@ -1,7 +1,7 @@
 
-drop view if exists api.previous_popular_game;
+drop view if exists api.previous_popular_games;
 
-create view api.previous_popular_game as
+create view api.previous_popular_games as
 select g.game_id,
        p.game_id      as prev_popular_game_id,
        p.title        as prev_popular_game_title,
@@ -18,3 +18,12 @@ from games as g
     order by rating desc
     limit 1
     ) as p on true;
+
+-- For embedding --
+drop function if exists api.previous_popular_games;
+
+create function api.previous_popular_games(api.games)
+returns setof api.previous_popular_games
+as $$
+  select * from api.previous_popular_games where game_id = $1.game_id
+$$ stable language sql;

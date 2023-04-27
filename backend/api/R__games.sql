@@ -1,4 +1,4 @@
-drop view if exists api.games;
+drop view if exists api.games cascade;
 
 create view api.games as
 select *
